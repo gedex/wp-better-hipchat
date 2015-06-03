@@ -99,6 +99,9 @@ class WP_Better_HipChat_Post_Meta_Box {
 		$fields = array(
 			'auth_token'  => 'sanitize_text_field',
 			'room'        => 'sanitize_text_field',
+			'types'       => function ( $val ) {
+				return explode( ',', sanitize_text_field($val) );
+			},
 			'active'      => function( $val ) {
 				if ( $val ) {
 					return true;

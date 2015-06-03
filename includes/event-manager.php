@@ -22,8 +22,6 @@ class WP_Better_HipChat_Event_Manager {
 	 */
 	private function dispatch_events() {
 
-		$events = $this->get_events();
-
 		// Get all integration settings.
 		// @todo Adds get_posts method into post type
 		// that caches the results.
@@ -48,6 +46,8 @@ class WP_Better_HipChat_Event_Manager {
 				continue;
 			}
 
+			$events = $this->get_events($setting);
+
 			// For each checked event calls the callback, that's,
 			// hooking into event's action-name to let notifier
 			// deliver notification based on current integration
@@ -68,17 +68,18 @@ class WP_Better_HipChat_Event_Manager {
 	 *
 	 * @return array
 	 */
-	public function get_events() {
+	public function get_events($setting) {
+
+		$notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types',
+			$setting['types']
+		);
+
 		return apply_filters( 'hipchat_get_events', array(
 			'post_published' => array(
 				'action'      => 'transition_post_status',
 				'description' => __( 'When a post is published', 'better-hipchat' ),
 				'default'     => true,
-				'message'     => function( $new_status, $old_status, $post ) {
-					$notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types', array(
-						'post',
-					) );
-
+				'message'     => function( $new_status, $old_status, $post ) use ( $notified_post_types ) {
 					if ( ! in_array( $post->post_type, $notified_post_types ) ) {
 						return false;
 					}
@@ -108,11 +109,7 @@ class WP_Better_HipChat_Event_Manager {
 				'action'      => 'transition_post_status',
 				'description' => __( 'When a post needs review', 'better-hipchat' ),
 				'default'     => false,
-				'message'     => function( $new_status, $old_status, $post ) {
-					$notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types', array(
-						'post',
-					) );
-
+				'message'     => function( $new_status, $old_status, $post ) use ( $notified_post_types ) {
 					if ( ! in_array( $post->post_type, $notified_post_types ) ) {
 						return false;
 					}
@@ -142,14 +139,10 @@ class WP_Better_HipChat_Event_Manager {
 				'action'      => 'wp_insert_comment',
 				'description' => __( 'When there is a new comment', 'better-hipchat' ),
 				'default'     => false,
-				'message'     => function( $comment_id, $comment ) {
+				'message'     => function( $comment_id, $comment ) use ( $notified_post_types ) {
 					$comment = is_object( $comment ) ? $comment : get_comment( absint( $comment ) );
 					$post_id = $comment->comment_post_ID;
-
-					$notified_post_types = apply_filters( 'hipchat_event_wp_insert_comment_post_types', array(
-						'post',
-					) );
-
+					
 					if ( ! in_array( get_post_type( $post_id ), $notified_post_types ) ) {
 						return false;
 					}

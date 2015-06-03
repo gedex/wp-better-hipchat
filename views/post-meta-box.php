@@ -23,6 +23,18 @@
 				</p>
 			</td>
 		</tr>
+		
+		<tr valign="top">
+			<th scope="row">
+				<label for="hipchat_setting[types]"><?php _e( 'Post Types', 'better-hipchat' ); ?></label>
+			</th>
+			<td>
+				<input type="text" class="regular-text" name="hipchat_setting[types]" id="hipchat_setting[types]" value="<?php echo ! empty( $setting['types'] ) ? esc_attr( implode( ',', $setting['types']) ) : ''; ?>">
+				<p class="description">
+					<?php _e( 'Comma-separated list of post types to notify on (none by default).', 'better-hipchat' ); ?>
+				</p>
+			</td>
+		</tr>
 
 		<tr valign="top">
 			<th scope="row">
