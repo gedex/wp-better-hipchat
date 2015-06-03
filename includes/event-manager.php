@@ -45,8 +45,8 @@ class WP_Better_HipChat_Event_Manager {
 			if ( empty( $setting['events'] ) ) {
 				continue;
 			}
-            
-            $events = $this->get_events($setting);
+
+			$events = $this->get_events($setting);
 
 			// For each checked event calls the callback, that's,
 			// hooking into event's action-name to let notifier
@@ -69,11 +69,11 @@ class WP_Better_HipChat_Event_Manager {
 	 * @return array
 	 */
 	public function get_events() {
-        
-        $notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types',
-            $setting['types']
-        );
-        
+
+		$notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types',
+			$setting['types']
+		);
+
 		return apply_filters( 'hipchat_get_events', array(
 			'post_published' => array(
 				'action'      => 'transition_post_status',
@@ -142,7 +142,7 @@ class WP_Better_HipChat_Event_Manager {
 				'message'     => function( $comment_id, $comment ) use ( $notified_post_types ) {
 					$comment = is_object( $comment ) ? $comment : get_comment( absint( $comment ) );
 					$post_id = $comment->comment_post_ID;
-                    
+					
 					if ( ! in_array( get_post_type( $post_id ), $notified_post_types ) ) {
 						return false;
 					}

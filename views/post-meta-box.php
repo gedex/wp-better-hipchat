@@ -23,8 +23,8 @@
 				</p>
 			</td>
 		</tr>
-        
-        <tr valign="top">
+		
+		<tr valign="top">
 			<th scope="row">
 				<label for="hipchat_setting[types]"><?php _e( 'Post Types', 'better-hipchat' ); ?></label>
 			</th>
@@ -35,7 +35,6 @@
 				</p>
 			</td>
 		</tr>
-
 
 		<tr valign="top">
 			<th scope="row">
