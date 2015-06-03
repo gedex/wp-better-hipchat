@@ -68,7 +68,7 @@ class WP_Better_HipChat_Event_Manager {
 	 *
 	 * @return array
 	 */
-	public function get_events() {
+	public function get_events($setting) {
 
 		$notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types',
 			$setting['types']
