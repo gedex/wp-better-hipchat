@@ -349,9 +349,11 @@ class WP_Better_HipChat_Post_Type {
 	public function columns_header( $columns ) {
 		unset( $columns['date'] );
 
-		$columns['auth_token'] = __( 'Auth Token', 'better-hipchat' );
-		$columns['room']       = __( 'Room', 'better-hipchat' );
-		$columns['events']     = __( 'Notified Events', 'better-hipchat' );
+		$columns['auth_token']  = __( 'Auth Token', 'better-hipchat' );
+		$columns['room']        = __( 'Room', 'better-hipchat' );
+		$columns['color']       = __( 'Notification Color', 'better-hipchat' );
+		$columns['showcontent'] = __( 'Show Content', 'better-hipchat' );
+		$columns['events']      = __( 'Notified Events', 'better-hipchat' );
 
 		return $columns;
 	}
@@ -372,6 +374,12 @@ class WP_Better_HipChat_Post_Type {
 				break;
 			case 'room':
 				echo ! empty( $setting['room'] ) ? $setting['room'] : '';
+				break;
+			case 'color':
+				echo ! empty( $setting['color'] ) ? $setting['color'] : '';
+				break;
+			case 'showcontent':
+				echo ! empty( $setting['showcontent'] ) ? $setting['showcontent'] : '';
 				break;
 			case 'events':
 				$events = $this->plugin->event_manager->get_events();
