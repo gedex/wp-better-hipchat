@@ -99,6 +99,8 @@ class WP_Better_HipChat_Post_Meta_Box {
 		$fields = array(
 			'auth_token'  => 'sanitize_text_field',
 			'room'        => 'sanitize_text_field',
+			'color'       => 'sanitize_text_field',
+			'showcontent' => 'sanitize_text_field',
 			'active'      => function( $val ) {
 				if ( $val ) {
 					return true;
@@ -138,8 +140,10 @@ class WP_Better_HipChat_Post_Meta_Box {
 	public function ajax_test_notify() {
 		try {
 			$expected_params = array(
-				'auth_token',
-				'room',
+          'auth_token',
+          'room',
+          'color',
+          'showcontent',
 				'test_notify_nonce',
 			);
 			foreach ( $expected_params as $param ) {
@@ -153,9 +157,11 @@ class WP_Better_HipChat_Post_Meta_Box {
 			}
 
 			$payload = array(
-				'auth_token' => $_REQUEST['auth_token'],
-				'room'       => $_REQUEST['room'],
-				'message'    => __( 'Test sending payload!', 'better-hipchat' ),
+				'auth_token'  => $_REQUEST['auth_token'],
+				'room'        => $_REQUEST['room'],
+				'color'       => $_REQUEST['color'],
+				'showcontent' => $_REQUEST['showcontent'],
+				'message'     => __( 'Test sending payload!', 'better-hipchat' ),
 			);
 
 			$resp = $this->plugin->notifier->notify( new WP_Better_HipChat_Event_Payload( $payload ) );
