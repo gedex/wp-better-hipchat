@@ -18,7 +18,7 @@ class WP_Better_HipChat_Plugin {
 	public function run( $path ) {
 		// Basic plugin information.
 		$this->name    = 'wp_better_hipchat'; // This maybe used to prefix options, slug of menu or page, and filters/actions.
-		$this->version = '0.1.0';
+		$this->version = '0.1.1';
 
 		// Path.
 		$this->plugin_path   = trailingslashit( plugin_dir_path( $path ) );
