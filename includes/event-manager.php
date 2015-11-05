@@ -90,7 +90,7 @@ class WP_Better_HipChat_Event_Manager {
 							wp_trim_words( strip_shortcodes( $post->post_content ), 55, '&hellip;' );
 
 						return sprintf(
-							'New post published: <a href="%1$s"><strong>%2$s</strong></a> by <strong>%3$s</strong>
+							'New: <a href="%1$s"><strong>%2$s</strong></a> by <strong>%3$s</strong>
 							<br>
 							<pre>%4$s</pre>
 							',
@@ -124,7 +124,7 @@ class WP_Better_HipChat_Event_Manager {
 							wp_trim_words( strip_shortcodes( $post->post_content ), 55, '&hellip;' );
 
 						return sprintf(
-							'New post needs review: <a href="%1$s"><strong>%2$s</strong></a> by <strong>%3$s</strong>
+							'Review: <a href="%1$s"><strong>%2$s</strong></a> by <strong>%3$s</strong>
 							<br>
 							<pre>%4$s</pre>
 							',
@@ -189,6 +189,10 @@ class WP_Better_HipChat_Event_Manager {
 			}
 
 			if ( ! empty( $message ) ) {
+
+			  // process the message based on showcontent preference
+			  $message = ( empty($setting['showcontent']) || $setting['showcontent'] == 'yes' ) ? $message : preg_replace('#<pre>(.*?)</pre>#i','',$message);
+
 				$setting['message'] = $message;
 
 				$notifier->notify( new WP_Better_HipChat_Event_Payload( $setting ) );
