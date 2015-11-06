@@ -70,6 +70,39 @@ class WP_Better_HipChat_Event_Manager {
 	 */
 	public function get_events() {
 		return apply_filters( 'hipchat_get_events', array(
+			'post_scheduled' => array(
+				'action'      => 'transition_post_status',
+				'description' => __( 'When a post is scheduled', 'better-hipchat' ),
+				'default'     => true,
+				'message'     => function( $new_status, $old_status, $post ) {
+					$notified_post_types = apply_filters( 'hipchat_event_transition_post_status_post_types', array(
+						'post',
+					) );
+
+					if ( ! in_array( $post->post_type, $notified_post_types ) ) {
+						return false;
+					}
+
+					if ( 'future' !== $old_status && 'future' === $new_status ) {
+						$excerpt = has_excerpt( $post->ID ) ?
+							apply_filters( 'get_the_excerpt', $post->post_excerpt )
+							:
+							wp_trim_words( strip_shortcodes( $post->post_content ), 55, '&hellip;' );
+
+						return sprintf(
+							'Scheduled: <a href="%1$s"><strong>%2$s</strong></a> by <strong>%3$s</strong>
+							<br>
+							<pre>%4$s</pre>
+							',
+
+							esc_attr( get_permalink( $post->ID ) ),
+							esc_html( get_the_title( $post->ID ) ),
+							get_the_author_meta( 'display_name', $post->post_author ),
+							apply_filters( 'get_the_excerpt', $excerpt )
+						);
+					}
+				},
+			),
 			'post_published' => array(
 				'action'      => 'transition_post_status',
 				'description' => __( 'When a post is published', 'better-hipchat' ),
