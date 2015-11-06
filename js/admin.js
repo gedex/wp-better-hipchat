@@ -24,6 +24,8 @@
 				'action'           : 'hipchat_test_notify',
 				'auth_token'       : $('[name="hipchat_setting[auth_token]"]').val(),
 				'room'             : $('[name="hipchat_setting[room]"]').val(),
+				'color'            : $('[name="hipchat_setting[color]"]').val(),
+				'showcontent'      : $('[name="hipchat_setting[showcontent]"]').val(),
 				'test_notify_nonce': $('#hipchat-test-notify-nonce').val()
 			}
 		} );
